@@ -164,7 +164,7 @@ class PythonUSIGCompiler:
         complexity = 1
         for child in ast.walk(node):
             if isinstance(child, (ast.If, ast.For, ast.While, ast.Try, ast.BoolOp, ast.IfExp, ast.ExceptHandler)):
-                complexity += 1
+                complexity += 1 
         return complexity
 
     def _extract_business_rules(self, rel: str, fn: ast.AST, source_id: str) -> None:
