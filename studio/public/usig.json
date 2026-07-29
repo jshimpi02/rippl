@@ -1,0 +1,44 @@
+{
+    "nodes": [
+      {
+        "id": "file:statement_service.py",
+        "type": "File",
+        "label": "statement_service.py",
+        "metadata": {
+          "language": "Python"
+        }
+      },
+      {
+        "id": "method:generate_all_statements",
+        "type": "Method",
+        "label": "generate_all_statements",
+        "metadata": {
+          "file": "statement_service.py",
+          "line": 20
+        }
+      },
+      {
+        "id": "method:generate_statement",
+        "type": "Method",
+        "label": "generate_statement",
+        "metadata": {
+          "file": "statement_service.py",
+          "line": 8
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge:1",
+        "source": "file:statement_service.py",
+        "target": "method:generate_all_statements",
+        "type": "DECLARES"
+      },
+      {
+        "id": "edge:2",
+        "source": "method:generate_all_statements",
+        "target": "method:generate_statement",
+        "type": "CALLS"
+      }
+    ]
+  }
