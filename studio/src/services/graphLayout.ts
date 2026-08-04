@@ -1,8 +1,8 @@
 import dagre from "@dagrejs/dagre";
 import type { Edge, Node } from "@xyflow/react";
 
-const NODE_WIDTH = 180;
-const NODE_HEIGHT = 60;
+const DEFAULT_NODE_WIDTH = 220;
+const DEFAULT_NODE_HEIGHT = 72;
 
 export function applyDagreLayout(
   nodes: Node[],
@@ -15,16 +15,14 @@ export function applyDagreLayout(
 
   graph.setGraph({
     rankdir: direction,
-    nodesep: 50,
-    ranksep: 80,
-    marginx: 20,
-    marginy: 20,
+    ranksep: 140,
+    nodesep: 80,
   });
 
   nodes.forEach((node) => {
     graph.setNode(node.id, {
-      width: NODE_WIDTH,
-      height: NODE_HEIGHT,
+      width: DEFAULT_NODE_WIDTH,
+      height: DEFAULT_NODE_HEIGHT,
     });
   });
 
@@ -35,13 +33,13 @@ export function applyDagreLayout(
   dagre.layout(graph);
 
   return nodes.map((node) => {
-    const position = graph.node(node.id);
+    const positionedNode = graph.node(node.id);
 
     return {
-      ...node,
+      ...node, // Important: preserves data, style, type, etc.
       position: {
-        x: position.x - NODE_WIDTH / 2,
-        y: position.y - NODE_HEIGHT / 2,
+        x: positionedNode.x - DEFAULT_NODE_WIDTH / 2,
+        y: positionedNode.y - DEFAULT_NODE_HEIGHT / 2,
       },
     };
   });

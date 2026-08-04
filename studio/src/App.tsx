@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 
 import "./App.css";
-import { GraphCanvas } from "./components/GraphCanvas";
+import { StatusBar } from "./layout/StatusBar";
+import { StudioHeader } from "./layout/StudioHeader";
+import { StudioWorkspace } from "./layout/StudioWorkspace";
 import { loadUSIGGraph } from "./services/graphLoader";
 import type { USIGGraph } from "./types/usig";
 
@@ -47,19 +49,23 @@ function App() {
 
   return (
     <main className="app-shell">
-      <header className="app-header">
-        <div>
-          <p className="eyebrow">Software Intelligence Graph</p>
-          <h1>Rippl Studio</h1>
-        </div>
+      <StudioHeader repositoryName="Rippl" />
 
-        <div className="graph-summary">
-          <span>{graph.nodes.length} nodes</span>
-          <span>{graph.edges.length} edges</span>
-        </div>
-      </header>
+      <StudioWorkspace graph={graph} />
 
-      <GraphCanvas graph={graph} />
+      <div className="bottom-panel-reservation">
+        <span>Terminal</span>
+        <span>Output</span>
+        <span>Problems</span>
+        <span className="bottom-panel-hint">
+          Integrated terminal planned in Issue #10
+        </span>
+      </div>
+
+      <StatusBar
+        nodeCount={graph.nodes.length}
+        edgeCount={graph.edges.length}
+      />
     </main>
   );
 }
