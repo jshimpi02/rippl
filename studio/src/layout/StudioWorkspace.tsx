@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { GraphCanvas } from "../components/GraphCanvas";
 import type {
   USIGGraph,
@@ -9,15 +7,18 @@ import { InspectorPanel } from "./InspectorPanel";
 import { ProjectNavigator } from "./ProjectNavigator";
 
 interface StudioWorkspaceProps {
-  graph: USIGGraph;
-}
+    graph: USIGGraph;
+    selectedNode: USIGNode | null;
+    matchingNodeIds: Set<string>;
+    onNodeSelect: (node: USIGNode | null) => void;
+  }
 
 export function StudioWorkspace({
   graph,
+  selectedNode,
+  matchingNodeIds,
+  onNodeSelect,
 }: StudioWorkspaceProps) {
-  const [selectedNode, setSelectedNode] =
-    useState<USIGNode | null>(null);
-
   return (
     <div className="studio-workspace">
       <ProjectNavigator nodes={graph.nodes} />
@@ -44,7 +45,9 @@ export function StudioWorkspace({
         <div className="graph-canvas-region">
           <GraphCanvas
             graph={graph}
-            onNodeSelect={setSelectedNode}
+            selectedNodeId={selectedNode?.id ?? null}
+            matchingNodeIds={matchingNodeIds}
+            onNodeSelect={onNodeSelect}
           />
         </div>
       </section>
@@ -52,7 +55,7 @@ export function StudioWorkspace({
       <InspectorPanel
         selectedNode={selectedNode}
         edges={graph.edges}
-        onClose={() => setSelectedNode(null)}
+        onClose={() => onNodeSelect(null)}
       />
     </div>
   );
