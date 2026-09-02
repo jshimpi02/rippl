@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 
 import "./App.css";
+import { useGraphSearch } from "./hooks/useGraphSearch";
 import { StatusBar } from "./layout/StatusBar";
 import { StudioHeader } from "./layout/StudioHeader";
 import { StudioWorkspace } from "./layout/StudioWorkspace";
 import { loadUSIGGraph } from "./services/graphLoader";
-import type { USIGGraph } from "./types/usig";
+import type {
+  USIGGraph,
+  USIGNode,
+} from "./types/usig";
 
 function App() {
   const [graph, setGraph] = useState<USIGGraph | null>(null);
+  const [selectedNode, setSelectedNode] =
+    useState<USIGNode | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -28,6 +34,22 @@ function App() {
 
     void loadGraph();
   }, []);
+
+  const {
+    query,
+    setQuery,
+    matches,
+    matchingNodeIds,
+    clearSearch,
+  } = useGraphSearch(graph?.nodes ?? []);
+
+  function handleSearchResultSelect(node: USIGNode) {
+    setSelectedNode(node);
+  }
+
+  function handleSearchClear() {
+    clearSearch();
+  }
 
   if (error) {
     return (
@@ -49,14 +71,27 @@ function App() {
 
   return (
     <main className="app-shell">
-      <StudioHeader repositoryName="Rippl" />
+      <StudioHeader
+        repositoryName="Rippl"
+        query={query}
+        searchResults={matches}
+        onQueryChange={setQuery}
+        onSearchResultSelect={handleSearchResultSelect}
+        onSearchClear={handleSearchClear}
+      />
 
-      <StudioWorkspace graph={graph} />
+      <StudioWorkspace
+        graph={graph}
+        selectedNode={selectedNode}
+        matchingNodeIds={matchingNodeIds}
+        onNodeSelect={setSelectedNode}
+      />
 
       <div className="bottom-panel-reservation">
         <span>Terminal</span>
         <span>Output</span>
         <span>Problems</span>
+
         <span className="bottom-panel-hint">
           Integrated terminal planned in Issue #10
         </span>
