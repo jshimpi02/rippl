@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Dict, Type
 
+from core.compiler.java_compiler import JavaUSIGCompiler
 from core.compiler.python_compiler import PythonUSIGCompiler
 
 
@@ -11,6 +12,7 @@ class CompilerRegistry:
     def __init__(self):
         self._compilers: Dict[str, Type] = {
             "Python": PythonUSIGCompiler,
+            "Java": JavaUSIGCompiler,
         }
 
     def supported_languages(self) -> list[str]:
@@ -35,4 +37,7 @@ class CompilerRegistry:
         repo_root: str,
     ):
         compiler_class = self.get(language)
-        return compiler_class(repo_root)
+
+        return compiler_class(
+            repo_root
+        )
