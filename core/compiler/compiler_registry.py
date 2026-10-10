@@ -4,6 +4,7 @@ from typing import Dict, Type
 
 from core.compiler.java_compiler import JavaUSIGCompiler
 from core.compiler.python_compiler import PythonUSIGCompiler
+from core.compiler.typescript_compiler import TypeScriptUSIGCompiler
 
 
 class CompilerRegistry:
@@ -13,6 +14,7 @@ class CompilerRegistry:
         self._compilers: Dict[str, Type] = {
             "Python": PythonUSIGCompiler,
             "Java": JavaUSIGCompiler,
+            "TypeScript": TypeScriptUSIGCompiler,
         }
 
     def supported_languages(self) -> list[str]:
